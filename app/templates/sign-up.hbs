@@ -1,0 +1,9 @@
+{{#form-for
+  (changeset model)
+  submit=(route-action 'addUser') as |f|
+}}
+  {{f.text-field 'name'}}
+  {{f.text-field 'email'}}
+  {{f.password-field 'password'}}
+  {{f.submit 'Sign up'}}
+{{/form-for}}
