@@ -1,5 +1,32 @@
-<button onclick={{action (route-action 'logOut')}}>
+<button class='btn btn-link' onclick={{action (route-action 'logOut')}}>
   Log out
 </button>
-<h1>Home page</h1>
+<div class='container'>
+  <div class='row'>
+    <div class='col-xs-12'>
+      <h2>Welcome {{model.user.name}}</h2>
+      {{#form-for
+        (changeset model.newTweet)
+        classNames='form'
+        submit=(route-action 'submitTweet') as |f|
+      }}
+        <div class='input-group'>
+          {{f.text-field 'text' label='Tweet' inputClasses='form-control'}}
+        </div>
+        <div class='input-group'>
+          <div class='btn-group'>
+            {{f.submit 'Submit' classNames='btn btn-primary btn-lg'}}
+          </div>
+        </div>
+      {{/form-for}}
+    </div>
+  </div>
+  {{#each model.user.tweets as |tweet|}}
+    <div class='row'>
+      <div class='col-xs-12'>
+        <p>{{tweet.text}}</p>
+      </div>
+    </div>
+  {{/each}}
+</div>
 {{outlet}}
