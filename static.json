@@ -1,7 +1,7 @@
 {
   "proxies": {
     "/api/": {
-      "origin": "https://tranquil-mountain-15667.herokuapp.com/"
+      "origin": "https://tranquil-mountain-15667.herokuapp.com/api/"
     }
   }
 }
