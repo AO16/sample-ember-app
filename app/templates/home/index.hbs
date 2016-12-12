@@ -2,6 +2,7 @@
   <div class='row'>
     <div class='col-xs-12'>
       <h2>Welcome {{model.user.name}}</h2>
+      {{link-to 'View Users' 'home.users'}}
       {{#form-for
         (changeset model.newTweet)
         classNames='form'
