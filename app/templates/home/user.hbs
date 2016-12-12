@@ -1,0 +1,14 @@
+<button class='btn btn-link' onclick={{action (route-action 'followUser' model)}}>
+  Follow
+</button>
+<div class='container'>
+  <h2>{{model.name}}</h2>
+  {{#each model.tweets as |tweet|}}
+    <div class='row'>
+      <div class='col-xs-12'>
+        <p>{{tweet.text}}</p>
+      </div>
+    </div>
+  {{/each}}
+</div>
+{{outlet}}

@@ -10,22 +10,28 @@ const {
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   session: service(),
+  ajax: service(),
 
   model() {
     const { authenticated: { user_id: userId } } = get(this, 'session.data');
 
     return hash({
       newTweet: this.store.createRecord('tweet'),
-      user: this.store.findRecord('user', userId, { include: 'tweets' })
+      user: this.store.findRecord('user', userId),
+      tweets: get(this, 'ajax').request(`/api/users/${userId}/timeline`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/vnd.api+json',
+          'Content-Type': 'application/vnd.api+json'
+        }
+      })
+        .then((result)=> {
+          return this.store.pushPayload(result);
+        })
     });
   },
 
   actions: {
-    logOut() {
-      const session = get(this, 'session');
-
-      session.invalidate();
-    },
     submitTweet(tweet) {
       const user = get(this, 'controller.model.user');
 
@@ -34,6 +40,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       return tweet.save()
         .then(()=> {
           set(this, 'controller.model.newTweet', this.store.createRecord('tweet'));
+          this.refresh();
         });
     }
   }
